@@ -5,8 +5,7 @@
 #ifndef PROGRAMMING_2_COURSEWORK_2_DURATION_H
 #define PROGRAMMING_2_COURSEWORK_2_DURATION_H
 
-#include <ostream>
-#include <istream>
+#include <iostream>
 
 using namespace std;
 
@@ -37,11 +36,20 @@ public:
     bool operator<=(const Duration &rhs) const;
     bool operator>=(const Duration &rhs) const;
 
+    //Equality operator overloads
+    bool operator==(const Duration &rhs) const;
+    bool operator!=(const Duration &rhs) const;
+
+    // + and - operator overloads
+    Duration operator+(const Duration &rhs) const;
+    Duration operator-(const Duration &rhs) const;
+
     //Unit test for class
     static void testMethod();
 
 private:
-    //Ensure that duration has no more than 59 seconds or 59 minutes by converting minutes into hours and seconds into minutes
+    //Ensure that duration has no more than 59 seconds or 59 minutes and no less than -59 seconds or -59 minutes
+    //by converting minutes into hours and seconds into minutes
     void normalise();
 
     //Instance attributes

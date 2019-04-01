@@ -2,12 +2,11 @@
 // Created by harry on 01/04/2019.
 //
 
-#include <iostream>
 #include "Duration.h"
 
 using namespace std;
 
-//Constructor normalises duration after creating it to ensure seconds and minutes are not greater than 59
+//Constructor normalises duration after creating it to ensure minutes and seconds are not greater than 59 or less than 0
 Duration::Duration(int hours, int minutes, int seconds) {
     this->hours = hours;
     this->minutes = minutes;
@@ -15,7 +14,7 @@ Duration::Duration(int hours, int minutes, int seconds) {
     this->normalise();
 }
 
-Duration::Duration() {}
+Duration::Duration() = default;
 
 int Duration::getSeconds() const {
     return seconds;
@@ -76,6 +75,18 @@ bool Duration::operator>=(const Duration &rhs) const {
     return !(*this < rhs);
 }
 
+// == Operator
+bool Duration::operator==(const Duration &rhs) const {
+    return seconds == rhs.seconds &&
+           minutes == rhs.minutes &&
+           hours == rhs.hours;
+}
+
+// != Operator, returns ! of == operator
+bool Duration::operator!=(const Duration &rhs) const {
+    return !(rhs == *this);
+}
+
 //output stream operator
 //Takes a constant duration and non constant output stream
 ostream &operator<<(ostream &os, const Duration &duration) {
@@ -98,7 +109,7 @@ istream &operator>>(istream &is, Duration &duration) {
     char c2;
     int hours, minutes, seconds;
 
-    if (is >> seconds >> c1 >> minutes >> c2 >> hours) {
+    if (is >> hours >> c1 >> minutes >> c2 >> seconds) {
         //Check if chars between numbers are : before calling constructor
         if (c1 == ':' && c2 == ':') {
             duration = Duration(hours, minutes, seconds);
@@ -112,16 +123,50 @@ istream &operator>>(istream &is, Duration &duration) {
     return is;
 }
 
+// + operator overload
+Duration Duration::operator+(const Duration &rhs) const {
+    int newHours = hours + rhs.hours;
+    int newMinutes = minutes + rhs.minutes;
+    int newSeconds = seconds + rhs.seconds;
+
+    return Duration(newHours, newMinutes, newSeconds);
+}
+
+// - operator overload
+Duration Duration::operator-(const Duration &rhs) const {
+    int newHours = hours - rhs.hours;
+    int newMinutes = minutes - rhs.minutes;
+    int newSeconds = seconds - rhs.seconds;
+
+    return Duration(newHours, newMinutes, newSeconds);
+}
+
 void Duration::normalise() {
+    //If there is more than 59 seconds
     //Add the division of seconds by 60 to minutes and set seconds to the remainder of the division
     if (seconds >= 60) {
         minutes += seconds / 60;
         seconds = seconds % 60;
     }
+    //If there is less than -59 seconds
+    //Subtract 1 - division of seconds by 60 to minutes
+    //Set the number of seconds to 60 - the remainder of seconds / 60
+    else if (seconds <= -60) {
+        minutes += (seconds / 60) - 1;
+        seconds = 60 - abs(seconds) % 60;
+    }
+
     //Add the division of minutes by 60 to hours and set minutes to the remainder of the division
     if (minutes >= 60) {
         hours += minutes / 60;
         minutes = minutes % 60;
+    }
+    //If there is less than -59 minutes
+    //Add the division of minutes by 60 to hours (add a negative value)
+    //Set the number of minutes to 60 - the remainder of minutes / 60
+    else if (minutes <= -60) {
+        hours += (minutes / 60) - 1;
+        minutes = 60 - abs(minutes) % 60;
     }
 }
 
@@ -163,4 +208,17 @@ void Duration::testMethod() {
     cout << ">= operator: " << test << "\n";
     test = d3 <= d3;
     cout << "<= operator: " << test << "\n";
+
+    cout << "\nTest + operator\n";
+    cout << "Testing 01:03:06 on the lhs and 01:08:41 on the rhs\n";
+    cout << d3 + d2 << "\n";
+
+    cout << "\nTest - operator\n";
+    cout << "Testing 01:08:41 on the lhs and 01:03:06 on the rhs\n";
+    cout << d2 - d3 << "\n";
+    cout << "Testing 01:03:06 on the lhs and 01:08:41 on the rhs\n";
+    cout << d3 - d2 << "\n";
+    cout << "Testing 01:03:06 on the lhs and 01:03:06 on the rhs\n";
+    cout << d3 - d3 << "\n";
 }
+
