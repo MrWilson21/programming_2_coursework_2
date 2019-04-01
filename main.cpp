@@ -1,6 +1,9 @@
 #include <iostream>
+#include "Duration.h"
+
+using namespace std;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    Duration::testMethod();
+    return EXIT_SUCCESS;
 }
