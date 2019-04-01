@@ -28,7 +28,7 @@ public:
 
     //Input and output steam operator overloads
     friend ostream &operator<<(ostream &os, const Track &track);
-    friend istream &operator>>(istream &is, const Track &track);
+    friend istream &operator>>(istream &is, Track &track);
 
     //Unit test for class
     static void testMethod();
