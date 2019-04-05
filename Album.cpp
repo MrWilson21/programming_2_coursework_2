@@ -7,7 +7,8 @@
 using namespace std;
 
 //Constructor with filled parameters
-Album::Album(const string &artist, const string &title, const vector<Track> &tracks) : artist(artist), title(title), tracks(tracks) {}
+Album::Album(const string &artist, const string &title, const vector<Track> &tracks) : artist(artist), title(title),
+                                                                                       tracks(tracks) {}
 
 //Constructor which takes only title and artist name
 Album::Album(const string &artist, const string &title) : artist(artist), title(title) {}
@@ -43,7 +44,7 @@ void Album::setTracks(const vector<Track> &tracks) {
 //Outputs in the form "artist : album title" then "\n" + "track" for every track
 ostream &operator<<(ostream &os, const Album &album) {
     os << album.artist << " : " << album.title;
-    for (Track t : album.tracks){
+    for (Track t : album.tracks) {
         os << "\n" << t;
     }
     return os;
@@ -52,19 +53,42 @@ ostream &operator<<(ostream &os, const Album &album) {
 //Input stream
 //Takes input in form "artist : album title" then "\n" + "track" for every track
 istream &operator>>(istream &is, Album &album) {
-    char seperator;
+    string seperator;
     string artist;
     string title;
+    string test;
 
-    if (is >> artist >> seperator >> title) {
+    /*if (is >> artist >> seperator >> title) {
         //Check if string between duration and title is "-" before calling constructor
-        if (seperator == ':') {
+        if (seperator == '-') {
             album = Album(artist, title);
         }
-        //If failed then set fail bit of input stream
+            //If failed then set fail bit of input stream
         else {
             is.clear(ios_base::failbit);
         }
+    }
+    //Return input stream for error checking
+    return is;*/
+
+    while (is >> test) {
+        if (!seperator.compare(":") == 0) {
+            if (test.compare(":") == 0) {
+                seperator = test;
+            } else {
+                title = title + test;
+            }
+        } else {
+            title = title + test;
+        }
+    }
+    if (seperator.compare(":") == 0) {
+        album = Album(artist, title);
+        //cout << album << "\n\n";
+    }
+    //If failed then set fail bit of input stream
+    else {
+        is.clear(ios_base::failbit);
     }
     //Return input stream for error checking
     return is;
@@ -72,22 +96,21 @@ istream &operator>>(istream &is, Album &album) {
 
 void Album::testMethod() {
     Album a;
+    istringstream iss;
+    string s;
     ifstream is("C:\\Users\\harry\\CLionProjects\\programming-2-coursework-2\\albums.txt", ifstream::in);
-    if(is){
-        while(!is.eofbit){
-            istringstream s;
-            getline(is, s);
-
-            if(is >> a){
-                cout << a;
-            }
+    while (is) {
+        getline(is, s);
+        iss = istringstream(s);
+        if (iss >> a) {
+            cout << a;
+        }
+        else
+        {
+            cout << "fail\n";
         }
     }
-/*
-    string s;
-    getline(is, s);
-    std::get
-    cout << s;*/
 }
+
 
 
