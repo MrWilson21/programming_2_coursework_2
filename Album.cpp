@@ -53,62 +53,101 @@ ostream &operator<<(ostream &os, const Album &album) {
 //Input stream
 //Takes input in form "artist : album title" then "\n" + "track" for every track
 istream &operator>>(istream &is, Album &album) {
+    //Strings for title, separating character, artist and the temporary test string
     string seperator;
     string artist;
     string title;
     string test;
 
-    /*if (is >> artist >> seperator >> title) {
-        //Check if string between duration and title is "-" before calling constructor
-        if (seperator == '-') {
-            album = Album(artist, title);
-        }
-            //If failed then set fail bit of input stream
-        else {
-            is.clear(ios_base::failbit);
-        }
-    }
-    //Return input stream for error checking
-    return is;*/
+    //Current line and input stream for current line
+    string curLine;
+    istringstream iss;
 
-    while (is >> test) {
+    //Get the first line to try to make an album with
+    getline(is, curLine);
+    iss = istringstream(curLine);
+
+    //While there are still strings in the first line
+    while (iss >> test) {
+        //If seperator character has not been set yet
         if (!seperator.compare(":") == 0) {
+            //If current string is the separating character then set the seperator
             if (test.compare(":") == 0) {
                 seperator = test;
-            } else {
-                title = title + test;
             }
-        } else {
-            title = title + test;
+            //If not then append test word to the artist string
+            else {
+                if(artist.empty()){
+                    artist = test;
+                }
+                else{
+                    artist += " " + test;
+                }
+
+            }
+        }
+        //If separating character already set then append the test word to the title
+        else {
+            if(title.empty()){
+                title = test;
+            }
+            else{
+                title += " " + test;
+            }
         }
     }
+
+    //After artist and title set, get tracks to add line by line
+    //Tracks array
+    vector<Track> tracks;
+    //Current track
+    Track curTrack;
+    //Boolean to stop reading tracks at end of album
+    bool readingTracks = true;
+    //Line for input stream to return to once there are no more tracks to read
+    int previousLine;
+
+    while(readingTracks){
+        //Set line to return to if fail
+        previousLine = is.tellg();
+        //Get one line and convert to an input stream to create track object from
+        getline(is, curLine);
+        iss = istringstream(curLine);
+
+        //Try to create track and add it to track vector
+        if(iss >> curTrack){
+            tracks.push_back(curTrack);
+        }
+        //If failed then there are no more tracks to read so stop reading tracks and return input stream to previous line
+        else
+        {
+            readingTracks = false;
+            is.seekg(previousLine);
+        }
+    }
+
+    //Check if album was read in properly by comparing seperator to its expected value before creating object
     if (seperator.compare(":") == 0) {
-        album = Album(artist, title);
-        //cout << album << "\n\n";
+        album = Album(artist, title, tracks);
     }
     //If failed then set fail bit of input stream
     else {
         is.clear(ios_base::failbit);
     }
-    //Return input stream for error checking
+
     return is;
 }
 
+//Unit test
 void Album::testMethod() {
+    cout << "Test creating album from input stream\n";
     Album a;
-    istringstream iss;
-    string s;
-    ifstream is("C:\\Users\\harry\\CLionProjects\\programming-2-coursework-2\\albums.txt", ifstream::in);
-    while (is) {
-        getline(is, s);
-        iss = istringstream(s);
-        if (iss >> a) {
-            cout << a;
-        }
-        else
-        {
-            cout << "fail\n";
-        }
+    ifstream is("albums.txt", ifstream::in);
+    if (is >> a){
+        cout << a << "\n";
+    }
+    else{
+        cout << "fail\n";
     }
 }
 

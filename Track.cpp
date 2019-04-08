@@ -42,8 +42,16 @@ istream &operator>>(istream &is, Track &track) {
     Duration duration;
 
     if (is >> duration >> seperator >> title) {
-        //Check if string between duration and title is "-" before calling constructor
+        //Check if string between duration and title is "-" to make a valid track
         if (seperator == '-') {
+            string test;
+            //If title has more than 1 word then each word must be added to title
+            while(is >> test)
+            {
+                title += " " + test;
+            }
+            //Clear fail bit as it will eventually be set when there are no more title words to append
+            is.clear();
             track = Track(duration, title);
         }
         //If failed then set fail bit of input stream
@@ -102,5 +110,4 @@ void Track::testMethod() {
     cout << comparator2(t2, t3) << "\n";
     cout << "compare duration of 01:02:03 on lhs with 01:02:03 on rhs\n";
     cout << comparator2(t2, t2) << "\n";
-
 }
