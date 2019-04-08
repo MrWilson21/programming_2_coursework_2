@@ -38,6 +38,9 @@ public:
     friend ostream &operator<<(ostream &os, const Album &album);
     friend istream &operator>>(istream &is, Album &album);
 
+
+    bool operator<(const Album &rhs) const;
+
     //Unit test for class
     static void testMethod();
 
@@ -46,6 +49,10 @@ private:
     string artist;
     string title;
     vector<Track> tracks;
+
+    //Method to convert ascii strings to lowercase
+    //Used in comparator method
+    string stringToLower(string s) const;
 };
 
 

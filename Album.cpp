@@ -107,7 +107,7 @@ istream &operator>>(istream &is, Album &album) {
     //Line for input stream to return to once there are no more tracks to read
     int previousLine;
 
-    while(readingTracks){
+    while(readingTracks && !is.eof()){
         //Set line to return to if fail
         previousLine = is.tellg();
         //Get one line and convert to an input stream to create track object from
@@ -136,6 +136,32 @@ istream &operator>>(istream &is, Album &album) {
     }
 
     return is;
+}
+
+//Comparison operator for sorting albums
+//Sorts by artist, then by title if artists are the same
+bool Album::operator<(const Album &rhs) const {
+    //Convert artist strings to lowercase before comparing
+    string lhsArtist = stringToLower(artist);
+    string rhsArtist = stringToLower(rhs.getArtist());
+    //If artists are equal then compare album titles
+    if(lhsArtist == rhsArtist){
+        string lhsTitle = stringToLower(title);
+        string rhsTitle = stringToLower(rhs.getTitle());
+        return lhsTitle < rhsTitle;
+    }
+    //If artists are different then return the comparison between artists
+    return lhsArtist < rhsArtist;
+}
+
+string Album::stringToLower(string s) const
+{
+    string rs;
+    for(char c : s)
+    {
+        rs += tolower(c);
+    }
+    return rs;
 }
 
 //Unit test
