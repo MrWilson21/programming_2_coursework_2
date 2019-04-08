@@ -53,25 +53,28 @@ ostream &operator<<(ostream &os, const Album &album) {
 //Input stream
 //Takes input in form "artist : album title" then "\n" + "track" for every track
 istream &operator>>(istream &is, Album &album) {
-    string seperator;
+    //Replace delimiter of input stream with a colon instead of space
+    locale curLoc = is.getloc();
+    is.imbue(locale(is.getloc(), new Album::colon_is_space));
+
     string artist;
     string title;
     string test;
 
-    /*if (is >> artist >> seperator >> title) {
-        //Check if string between duration and title is "-" before calling constructor
-        if (seperator == '-') {
-            album = Album(artist, title);
-        }
-            //If failed then set fail bit of input stream
-        else {
-            is.clear(ios_base::failbit);
-        }
+    //If album can be created from stream
+    if (is >> artist >> title) {
+        album = Album(artist, title);
     }
+    //If failed then set fail bit of input stream
+    else {
+        is.clear(ios_base::failbit);
+    }
+    //Return locale of input stream to its original
+    is.imbue(curLoc);
     //Return input stream for error checking
-    return is;*/
+    return is;
 
-    while (is >> test) {
+    /*while (is >> test) {
         if (!seperator.compare(":") == 0) {
             if (test.compare(":") == 0) {
                 seperator = test;
@@ -91,7 +94,7 @@ istream &operator>>(istream &is, Album &album) {
         is.clear(ios_base::failbit);
     }
     //Return input stream for error checking
-    return is;
+    return is;*/
 }
 
 void Album::testMethod() {
@@ -99,7 +102,15 @@ void Album::testMethod() {
     istringstream iss;
     string s;
     ifstream is("C:\\Users\\harry\\CLionProjects\\programming-2-coursework-2\\albums.txt", ifstream::in);
-    while (is) {
+    //getline(is, s);
+    //cout << s << "\n";
+    if(is >> a){
+        cout << a;
+    }
+    else{
+        cout << "fails";
+    }
+    /*while (is) {
         getline(is, s);
         iss = istringstream(s);
         if (iss >> a) {
@@ -109,7 +120,7 @@ void Album::testMethod() {
         {
             cout << "fail\n";
         }
-    }
+    }*/
 }
 
 

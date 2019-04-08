@@ -7,6 +7,7 @@
 
 #include "Duration.h"
 #include <iostream>
+#include <locale>
 #include <string>
 
 using namespace std;
@@ -41,6 +42,18 @@ private:
     //Instance attributes
     Duration duration;
     string title;
+
+    //Replace delimiter of input stream with a hyphen instead of space
+    struct hyphen_is_space : std::ctype<char> {
+        hyphen_is_space() : std::ctype<char>(get_table()) {}
+        static mask const* get_table()
+        {
+            static mask rc[table_size];
+            rc['-'] = std::ctype_base::space;
+            rc['\n'] = std::ctype_base::space;
+            return &rc[0];
+        }
+    };
 };
 
 

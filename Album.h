@@ -46,6 +46,17 @@ private:
     string artist;
     string title;
     vector<Track> tracks;
+
+    struct colon_is_space : std::ctype<char> {
+        colon_is_space() : std::ctype<char>(get_table()) {}
+        static mask const* get_table()
+        {
+            static mask rc[table_size];
+            rc[':'] = std::ctype_base::space;
+            rc['\n'] = std::ctype_base::space;
+            return &rc[0];
+        }
+    };
 };
 
 

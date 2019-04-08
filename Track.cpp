@@ -37,20 +37,23 @@ ostream &operator<<(ostream &os, const Track &track) {
 //Input stream
 //Takes input in form "duration - title"
 istream &operator>>(istream &is, Track &track) {
-    char seperator;
+    //Replace delimiter of input stream with a hyphen instead of space
+    locale curLoc = is.getloc();
+    is.imbue(locale(is.getloc(), new Track::hyphen_is_space));
+
     string title;
     Duration duration;
 
-    if (is >> duration >> seperator >> title) {
-        //Check if string between duration and title is "-" before calling constructor
-        if (seperator == '-') {
-            track = Track(duration, title);
-        }
-        //If failed then set fail bit of input stream
-        else {
-            is.clear(ios_base::failbit);
-        }
+    //If track can be created from stream
+    if (is >> duration >> title) {
+        track = Track(duration, title);
     }
+    //If failed then set fail bit of input stream
+    else {
+        is.clear(ios_base::failbit);
+    }
+    //Return locale of input stream to its original
+    is.imbue(curLoc);
     //Return input stream for error checking
     return is;
 }
