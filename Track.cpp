@@ -89,11 +89,11 @@ struct Track::durationComparator
 void Track::testMethod() {
     Track t1;
     cout << "Test creating and outputting track with stream input and output\n";
-    cout << "input track: ";
-    while (!(cin >> t1)) {
-        cin.clear();
-        cin.ignore(256, '\n');
-        cout << "input not recognised, please input track:";
+    cout << "input track: 00:03:45 - track name";
+    istringstream iss = istringstream("00:03:45 - track name");
+    if (!(iss >> t1)) {
+        cout << "failed to read in track";
+        return;
     }
     cout << "\n" << t1 << "\n";
 

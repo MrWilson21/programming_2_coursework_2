@@ -173,11 +173,11 @@ void Duration::normalise() {
 void Duration::testMethod() {
     Duration d1;
     cout << "Test creating and outputting duration with stream input and output\n";
-    cout << "input duration: ";
-    while (!(cin >> d1)) {
-        cin.clear();
-        cin.ignore(256, '\n');
-        cout << "input not recognised, please input duration:";
+    cout << "input duration: 00:01:34";
+    istringstream iss = istringstream("00:01:34");
+    if(!(iss >> d1)) {
+        cout << "Duration read failed";
+        return;
     }
     cout << "\n" << d1 << "\n";
 

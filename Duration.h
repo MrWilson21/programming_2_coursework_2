@@ -6,6 +6,7 @@
 #define PROGRAMMING_2_COURSEWORK_2_DURATION_H
 
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 

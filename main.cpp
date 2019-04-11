@@ -10,7 +10,7 @@ using namespace std;
 int main() {
     //Unit test calls for each class
     //Duration::testMethod();
-    //Track::testMethod();
+    Track::testMethod();
     //Album::testMethod();
     //Collection::testMethod();
 
