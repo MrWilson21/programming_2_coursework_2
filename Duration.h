@@ -14,35 +14,46 @@ class Duration {
 public:
     //Constructor with filled parameters
     Duration(int hours, int minutes, int seconds);
+
     //Default constructor
     Duration();
 
     //Getters
     int getSeconds() const;
+
     int getMinutes() const;
+
     int getHours() const;
 
     //Setters
     void setSeconds(int seconds);
+
     void setMinutes(int minutes);
+
     void setHours(int hours);
 
     //Input and output stream operator overloads
     friend ostream &operator<<(ostream &os, const Duration &duration);
+
     friend istream &operator>>(istream &is, Duration &duration);
 
     //Relational operator overloads
     bool operator<(const Duration &rhs) const;
+
     bool operator>(const Duration &rhs) const;
+
     bool operator<=(const Duration &rhs) const;
+
     bool operator>=(const Duration &rhs) const;
 
     //Equality operator overloads
     bool operator==(const Duration &rhs) const;
+
     bool operator!=(const Duration &rhs) const;
 
     // + and - operator overloads
     Duration operator+(const Duration &rhs) const;
+
     Duration operator-(const Duration &rhs) const;
 
     //Unit test for class

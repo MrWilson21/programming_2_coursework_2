@@ -8,6 +8,7 @@ using namespace std;
 
 //Constructor with filled parameters
 Track::Track(const Duration &duration, const string &title) : duration(duration), title(title) {}
+
 //Default constructor
 Track::Track() = default;
 
@@ -46,15 +47,14 @@ istream &operator>>(istream &is, Track &track) {
         if (seperator == '-') {
             string test;
             //If title has more than 1 word then each word must be added to title
-            while(is >> test)
-            {
+            while (is >> test) {
                 title += " " + test;
             }
             //Clear fail bit as it will eventually be set when there are no more title words to append
             is.clear();
             track = Track(duration, title);
         }
-        //If failed then set fail bit of input stream
+            //If failed then set fail bit of input stream
         else {
             is.clear(ios_base::failbit);
         }
@@ -64,22 +64,18 @@ istream &operator>>(istream &is, Track &track) {
 }
 
 //Compare tracks by title
-struct Track::titleComparator
-{
+struct Track::titleComparator {
     // Compare 2 Track objects using title
-    int operator ()(const Track & t1, const Track & t2)
-    {
+    int operator()(const Track &t1, const Track &t2) {
         return t1.title.compare(t2.title);
     }
 };
 
 //Compare track by duration in ascending order
-struct Track::durationComparator
-{
+struct Track::durationComparator {
     // Compare 2 Track objects using title
-    int operator ()(const Track & t1, const Track & t2)
-    {
-        if(t1.duration == t2.duration)
+    int operator()(const Track &t1, const Track &t2) {
+        if (t1.duration == t2.duration)
             return 0;
         return t1.duration < t2.duration;
     }
@@ -97,8 +93,8 @@ void Track::testMethod() {
     }
     cout << "\n" << t1 << "\n";
 
-    Track t2 = Track(Duration(1, 2 ,3), "abcde");
-    Track t3 = Track(Duration(6, 5 ,4), "qwerty");
+    Track t2 = Track(Duration(1, 2, 3), "abcde");
+    Track t3 = Track(Duration(6, 5, 4), "qwerty");
     cout << "\nTest comparators\n";
     Track::titleComparator comparator1;
     cout << "compare title of abcde on lhs with qwerty on rhs\n";

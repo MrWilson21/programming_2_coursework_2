@@ -12,7 +12,7 @@ int main() {
     //Duration::testMethod();
     //Track::testMethod();
     //Album::testMethod();
-    Collection::testMethod();
+    //Collection::testMethod();
 
     cout << "Read in collection from albums.txt\n";
     Collection c;
@@ -21,8 +21,7 @@ int main() {
     if (is >> c) {
         //Success if collection can be loaded in
         cout << "Load success\n\n";
-    }
-    else{
+    } else {
         //Exit if load failed
         cout << "Failed to load collection";
         return EXIT_FAILURE;
@@ -34,13 +33,13 @@ int main() {
     cout << c << "\n\n";
 
     cout << "Display total play time of all Pink Floyd albums\n";
-    vector<Album*> albums = c.getAlbums();
+    vector<Album *> albums = c.getAlbums();
     Duration totalPinkFloydDuration = Duration(0, 0, 0);
 
     //For each album
-    for(Album* a : albums){
+    for (Album *a : albums) {
         //If artist is Pink Floyd then add album duration to total
-        if(a->getArtist() == "Pink Floyd"){
+        if (a->getArtist() == "Pink Floyd") {
             for (Track t : a->getTracks()) {
                 totalPinkFloydDuration = totalPinkFloydDuration + t.getDuration();
             }
@@ -50,12 +49,11 @@ int main() {
 
     cout << "Display album with largest number of tracks\n";
     //Initialise longest album to first in list
-    Album* largestAlbum = albums[0];
+    Album *largestAlbum = albums[0];
     //For each album check if size of track list is greater than largest album track list
-    for(Album* a : albums)
-    {
+    for (Album *a : albums) {
         //If greater then replace largest album with new one
-        if(a->getTracks().size() > largestAlbum->getTracks().size()){
+        if (a->getTracks().size() > largestAlbum->getTracks().size()) {
             largestAlbum = a;
         }
     }
@@ -65,11 +63,11 @@ int main() {
     //Initialise longest track to first track of first album
     Track longestTrack = albums[0]->getTracks()[0];
     //For each album
-    for(Album* a : albums){
+    for (Album *a : albums) {
         //For each track in album
         for (Track t : a->getTracks()) {
             //If track is longer than longest track then replace longest track with new one
-            if(t.getDuration() > longestTrack.getDuration()){
+            if (t.getDuration() > longestTrack.getDuration()) {
                 longestTrack = t;
             }
         }

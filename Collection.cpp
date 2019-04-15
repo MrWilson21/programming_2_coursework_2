@@ -8,7 +8,7 @@
 Collection::Collection() {}
 
 //Constructor with album pointers vector as a parameter
-Collection::Collection(const vector<Album*> &albums) : albums(albums) {}
+Collection::Collection(const vector<Album *> &albums) : albums(albums) {}
 
 //Output stream operator
 //Outputs every album in collection in the form "album + \n + album + \n +... + album"
@@ -25,9 +25,9 @@ ostream &operator<<(ostream &os, const Collection &collection) {
 //Input stream operator
 istream &operator>>(istream &is, Collection &collection) {
     //vector of album pointers to create collection object with
-    vector<Album*> albums;
+    vector<Album *> albums;
     //Current album being read in
-    Album* curAlbum = new Album();
+    Album *curAlbum = new Album();
 
     //While there are albums to read in, add them to the album list
     while (is >> *curAlbum) {
@@ -41,7 +41,7 @@ istream &operator>>(istream &is, Collection &collection) {
         is.clear();
 
     }
-    //If no albums loaded then an error is triggered
+        //If no albums loaded then an error is triggered
     else {
         is.clear(ios_base::failbit);
     }
@@ -49,11 +49,11 @@ istream &operator>>(istream &is, Collection &collection) {
     return is;
 }
 
-const vector<Album*> &Collection::getAlbums() const {
+const vector<Album *> &Collection::getAlbums() const {
     return albums;
 }
 
-void Collection::setAlbums(const vector<Album*> &albums) {
+void Collection::setAlbums(const vector<Album *> &albums) {
     Collection::albums = albums;
 }
 

@@ -75,23 +75,21 @@ istream &operator>>(istream &is, Album &album) {
             if (test.compare(":") == 0) {
                 seperator = test;
             }
-            //If not then append test word to the artist string
+                //If not then append test word to the artist string
             else {
-                if(artist.empty()){
+                if (artist.empty()) {
                     artist = test;
-                }
-                else{
+                } else {
                     artist += " " + test;
                 }
 
             }
         }
-        //If separating character already set then append the test word to the title
+            //If separating character already set then append the test word to the title
         else {
-            if(title.empty()){
+            if (title.empty()) {
                 title = test;
-            }
-            else{
+            } else {
                 title += " " + test;
             }
         }
@@ -107,7 +105,7 @@ istream &operator>>(istream &is, Album &album) {
     //Line for input stream to return to once there are no more tracks to read
     int previousLine;
 
-    while(readingTracks && !is.eof()){
+    while (readingTracks && !is.eof()) {
         //Set line to return to if fail
         previousLine = is.tellg();
         //Get one line and convert to an input stream to create track object from
@@ -115,12 +113,11 @@ istream &operator>>(istream &is, Album &album) {
         iss = istringstream(curLine);
 
         //Try to create track and add it to track vector
-        if(iss >> curTrack){
+        if (iss >> curTrack) {
             tracks.push_back(curTrack);
         }
-        //If failed then there are no more tracks to read so stop reading tracks and return input stream to previous line
-        else
-        {
+            //If failed then there are no more tracks to read so stop reading tracks and return input stream to previous line
+        else {
             readingTracks = false;
             is.seekg(previousLine);
         }
@@ -130,7 +127,7 @@ istream &operator>>(istream &is, Album &album) {
     if (seperator.compare(":") == 0) {
         album = Album(artist, title, tracks);
     }
-    //If failed then set fail bit of input stream
+        //If failed then set fail bit of input stream
     else {
         is.clear(ios_base::failbit);
     }
@@ -145,7 +142,7 @@ bool Album::operator<(const Album &rhs) const {
     string lhsArtist = stringToLower(artist);
     string rhsArtist = stringToLower(rhs.getArtist());
     //If artists are equal then compare album titles
-    if(lhsArtist == rhsArtist){
+    if (lhsArtist == rhsArtist) {
         string lhsTitle = stringToLower(title);
         string rhsTitle = stringToLower(rhs.getTitle());
         return lhsTitle < rhsTitle;
@@ -154,11 +151,9 @@ bool Album::operator<(const Album &rhs) const {
     return lhsArtist < rhsArtist;
 }
 
-string Album::stringToLower(string s) const
-{
+string Album::stringToLower(string s) const {
     string rs;
-    for(char c : s)
-    {
+    for (char c : s) {
         rs += tolower(c);
     }
     return rs;
@@ -169,10 +164,9 @@ void Album::testMethod() {
     cout << "Test creating album from input stream\n";
     Album a;
     ifstream is("albums.txt", ifstream::in);
-    if (is >> a){
+    if (is >> a) {
         cout << a << "\n";
-    }
-    else{
+    } else {
         cout << "fail\n";
     }
 }

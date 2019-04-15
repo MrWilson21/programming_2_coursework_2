@@ -113,7 +113,7 @@ istream &operator>>(istream &is, Duration &duration) {
         if (c1 == ':' && c2 == ':') {
             duration = Duration(hours, minutes, seconds);
         }
-        //If failed then set fail bit of input stream
+            //If failed then set fail bit of input stream
         else {
             is.clear(ios_base::failbit);
         }
@@ -147,9 +147,9 @@ void Duration::normalise() {
         minutes += seconds / 60;
         seconds = seconds % 60;
     }
-    //If there is less than -59 seconds
-    //Subtract 1 - division of seconds by 60 to minutes
-    //Set the number of seconds to 60 - the remainder of seconds / 60
+        //If there is less than -59 seconds
+        //Subtract 1 - division of seconds by 60 to minutes
+        //Set the number of seconds to 60 - the remainder of seconds / 60
     else if (seconds <= -60) {
         minutes += (seconds / 60) - 1;
         seconds = 60 - abs(seconds) % 60;
@@ -160,9 +160,9 @@ void Duration::normalise() {
         hours += minutes / 60;
         minutes = minutes % 60;
     }
-    //If there is less than -59 minutes
-    //Add the division of minutes by 60 to hours (add a negative value)
-    //Set the number of minutes to 60 - the remainder of minutes / 60
+        //If there is less than -59 minutes
+        //Add the division of minutes by 60 to hours (add a negative value)
+        //Set the number of minutes to 60 - the remainder of minutes / 60
     else if (minutes <= -60) {
         hours += (minutes / 60) - 1;
         minutes = 60 - abs(minutes) % 60;
@@ -175,7 +175,7 @@ void Duration::testMethod() {
     cout << "Test creating and outputting duration with stream input and output\n";
     cout << "input duration: 00:01:34";
     istringstream iss = istringstream("00:01:34");
-    if(!(iss >> d1)) {
+    if (!(iss >> d1)) {
         cout << "Duration read failed";
         return;
     }

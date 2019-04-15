@@ -20,14 +20,17 @@ public:
 
     //Getters
     const Duration &getDuration() const;
+
     const string &getTitle() const;
 
     //Setters
     void setDuration(const Duration &duration);
+
     void setTitle(const string &title);
 
     //Input and output steam operator overloads
     friend ostream &operator<<(ostream &os, const Track &track);
+
     friend istream &operator>>(istream &is, Track &track);
 
     //Unit test for class
