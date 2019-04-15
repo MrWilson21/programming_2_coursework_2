@@ -7,16 +7,16 @@
 //Default constructor
 Collection::Collection() {}
 
-//Constructor with albums vector as a parameter
-Collection::Collection(const vector<Album> &albums) : albums(albums) {}
+//Constructor with album pointers vector as a parameter
+Collection::Collection(const vector<Album*> &albums) : albums(albums) {}
 
 //Output stream operator
 //Outputs every album in collection in the form "album + \n + album + \n +... + album"
 ostream &operator<<(ostream &os, const Collection &collection) {
     if (collection.albums.size() > 0) {
-        os << collection.albums[0];
+        os << *collection.albums[0];
         for (int i = 1; i < collection.albums.size(); i++) {
-            os << "\n" << collection.albums[i];
+            os << "\n" << *collection.albums[i];
         }
     }
     return os;
@@ -24,13 +24,13 @@ ostream &operator<<(ostream &os, const Collection &collection) {
 
 //Input stream operator
 istream &operator>>(istream &is, Collection &collection) {
-    //vector of albums to create collection object with
-    vector<Album> albums;
+    //vector of album pointers to create collection object with
+    vector<Album*> albums;
     //Current album being read in
-    Album curAlbum;
+    Album* curAlbum = new Album();
 
     //While there are albums to read in, add them to the album list
-    while (is >> curAlbum) {
+    while (is >> *curAlbum) {
         albums.push_back(curAlbum);
     }
 
@@ -49,11 +49,11 @@ istream &operator>>(istream &is, Collection &collection) {
     return is;
 }
 
-const vector<Album> &Collection::getAlbums() const {
+const vector<Album*> &Collection::getAlbums() const {
     return albums;
 }
 
-void Collection::setAlbums(const vector<Album> &albums) {
+void Collection::setAlbums(const vector<Album*> &albums) {
     Collection::albums = albums;
 }
 

@@ -16,7 +16,7 @@ using namespace std;
 class Collection {
 public:
     //Constructor with filled parameters
-    Collection(const vector<Album> &albums);
+    Collection(const vector<Album*> &albums);
     //Default constructor
     Collection();
 
@@ -25,10 +25,10 @@ public:
     friend istream &operator>>(istream &is, Collection &collection);
 
     //Getter
-    const vector<Album> &getAlbums() const;
+    const vector<Album*> &getAlbums() const;
 
     //Setter
-    void setAlbums(const vector<Album> &albums);
+    void setAlbums(const vector<Album*> &albums);
 
     void sortAlbums();
 
@@ -36,7 +36,7 @@ public:
 
 private:
     //Instance attributes
-    vector<Album> albums;
+    vector<Album*> albums;
 };
 
 
