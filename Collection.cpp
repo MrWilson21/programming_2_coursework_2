@@ -32,6 +32,7 @@ istream &operator>>(istream &is, Collection &collection) {
     //While there are albums to read in, add them to the album list
     while (is >> *curAlbum) {
         albums.push_back(curAlbum);
+        curAlbum = new Album();
     }
 
     //Once all albums are read in create a collection object if there are any albums
@@ -58,7 +59,11 @@ void Collection::setAlbums(const vector<Album *> &albums) {
 }
 
 void Collection::sortAlbums() {
-    sort(albums.begin(), albums.end());
+    sort(albums.begin(), albums.end(), compareAlbumPointers);
+}
+
+bool Collection::compareAlbumPointers(Album *a, Album *b) {
+    return (*a < *b);
 }
 
 //Unit test

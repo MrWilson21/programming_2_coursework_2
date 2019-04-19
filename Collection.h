@@ -39,6 +39,9 @@ public:
 private:
     //Instance attributes
     vector<Album *> albums;
+
+    //Used in sorting method as a comparator for two album pointers
+    static bool compareAlbumPointers(Album* a, Album* b);
 };
 
 

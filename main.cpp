@@ -26,7 +26,6 @@ int main() {
         cout << "Failed to load collection";
         return EXIT_FAILURE;
     }
-
     cout << "Display collection in alphabetical order\n";
     //Sort using album < operator
     c.sortAlbums();
