@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.12)
 project(programming_2_coursework_2)
 
 set(CMAKE_CXX_STANDARD 14)

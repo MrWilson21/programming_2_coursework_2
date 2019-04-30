@@ -17,7 +17,7 @@ int main() {
     cout << "Read in collection from albums.txt\n";
     Collection c;
     //Open file to load
-    ifstream is("albums.txt", ifstream::in);
+    ifstream is("albums.txt", ifstream::binary);
     if (is >> c) {
         //Success if collection can be loaded in
         cout << "Load success\n\n";
